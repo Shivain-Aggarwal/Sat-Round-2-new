@@ -1,0 +1,86 @@
+/* One phosphor, three signal colors. Hierarchy comes from inverse video, brightness and rules, not size or boxes. */
+:root{
+  --glass:#0b0f0c; --ph:#86e08f; --hi:#d2ffd8; --dim:#5f9a6b;
+  --amber:#e8b04a; --red:#ff6b5e; --frame:#2f5a39;
+  --font:'B612 Mono','IBM Plex Mono',ui-monospace,Menlo,Consolas,'DejaVu Sans Mono',monospace;
+  --s1:.25rem; --s2:.5rem; --s3:1rem; --s4:1.5rem;
+}
+/* The frame (rules around the HUD and prompt) carries the alert zone, set from JS on <body>. */
+body[data-zone=elevated]{--frame:#7a6128}
+body[data-zone=critical]{--frame:#a8453c}
+body[data-zone=locked]{--frame:var(--red)}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;background:var(--glass);color:var(--ph);font:14px/1.55 var(--font);font-variant-ligatures:none}
+body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
+.hidden{display:none!important}
+.dim{color:var(--dim)} .warn{color:var(--amber)} .crit{color:var(--red)}
+.screen{max-width:92ch;margin:0 auto;padding:var(--s3);min-height:100%}
+#game.screen{display:flex;flex-direction:column;height:100%;height:100dvh;min-height:0;max-width:100ch}
+pre{margin:0;white-space:pre-wrap;font:inherit}
+h2{font-size:inherit;font-weight:700;color:var(--hi);margin:0 0 var(--s3)}
+h2::before{content:"# ";color:var(--dim)}
+code{color:var(--amber)}
+p{max-width:70ch;margin:0 0 var(--s3)}
+.logo{color:var(--hi);font-size:clamp(9px,3.2vw,18px);line-height:1.1;white-space:pre;margin-bottom:var(--s2)}
+.tagline{margin-bottom:var(--s4)}
+.lead{color:var(--hi);font-weight:700}
+.man{display:grid;grid-template-columns:9ch 1fr;gap:var(--s3);margin:0;max-width:78ch}
+.man dt{color:var(--dim)} .man dd{margin:0}
+@media (max-width:560px){.man{grid-template-columns:1fr;gap:0}.man dd{margin-bottom:var(--s3)}}
+.menu{display:flex;flex-direction:column;align-items:flex-start;gap:var(--s2);margin-top:var(--s4)}
+button{font:inherit;background:none;border:0;color:var(--ph);padding:var(--s1) 0;cursor:pointer;text-align:left}
+button:hover,button:focus-visible{background:var(--ph);color:var(--glass);outline:0}
+input{font:inherit;background:none;border:0;border-bottom:1px solid var(--dim);color:var(--hi);outline:0}
+.boot-ok{color:var(--hi)}
+#bootlog{margin-bottom:var(--s3);white-space:pre-wrap}
+
+/* HUD */
+#hud{border-top:1px solid var(--frame);border-bottom:1px solid var(--frame);padding:var(--s1) 0}
+#hud .row{display:flex;flex-wrap:wrap;align-items:baseline;gap:0 var(--s2)}
+.spacer{flex:1}
+#mTitle{font-weight:700;color:var(--hi)}
+.lamp{padding:0 .5ch;background:var(--ph);color:var(--glass);font-weight:700}
+body[data-zone=locked] .lamp{background:var(--red)}
+#bar{white-space:pre}
+#stats{white-space:pre}
+#nodes{display:flex;flex-wrap:wrap;gap:0 var(--s3);padding:var(--s2) 0 0}
+.node{color:var(--dim);white-space:pre}
+.node.done{color:var(--ph)}
+.node.active{background:var(--amber);color:var(--glass);font-weight:700}
+#objective{padding:var(--s2) 0;border-bottom:1px dashed var(--frame)}
+
+/* Output */
+#out{flex:1;overflow-y:auto;overscroll-behavior:contain;padding:var(--s2) 0;scrollbar-width:thin;scrollbar-color:var(--frame) transparent}
+.line{white-space:pre-wrap;word-break:break-word}
+.echo{margin-top:var(--s3);color:var(--hi)} .echo:first-child{margin-top:0}
+.echo .ps{color:var(--dim)}
+.sentinel{color:var(--amber);margin:var(--s1) 0;padding-left:10ch;text-indent:-10ch}
+.t-ok{color:var(--hi)} .t-bad{color:var(--red)} .t-info{color:var(--dim)} .t-hint{color:var(--amber)}
+.t-head{color:var(--dim);text-decoration:underline dotted;text-underline-offset:3px}
+.banner{background:var(--amber);color:var(--glass);font-weight:700;margin-top:var(--s3);padding:0 1ch;width:max-content;max-width:100%}
+#lockbar{white-space:pre;background:var(--red);color:var(--glass);padding:var(--s1) var(--s2);font-weight:700;overflow:hidden}
+
+/* Prompt and footer */
+#prompt{display:flex;gap:var(--s2);border-top:1px solid var(--frame);padding:var(--s2) 0}
+#prompt label{color:var(--dim);white-space:nowrap}
+#prompt input{flex:1;min-width:0;border:0;caret-color:var(--hi);font-size:16px}
+#prompt input:disabled{opacity:.4}
+#prompt:focus-within{border-top-color:var(--ph)}
+footer{display:flex;gap:var(--s3);flex-wrap:wrap;align-items:center;font-size:.85rem;border-top:1px dashed var(--frame);padding-top:var(--s1)}
+footer button{color:var(--dim)}
+
+/* Victory and leaderboard */
+#debrief{border-left:2px solid var(--frame);padding-left:var(--s3);margin-bottom:var(--s4)}
+#debrief::first-line{background:var(--ph);color:var(--glass);font-weight:700}
+#scoreForm{display:flex;flex-wrap:wrap;align-items:baseline;gap:var(--s2)}
+#scoreForm input{width:18ch;padding:2px 0;border-bottom-color:var(--ph)}
+#scoreForm button{border:1px solid var(--ph);padding:var(--s1) var(--s2)}
+#boardList{color:var(--ph);margin-bottom:var(--s3)}
+
+/* Scanlines: hard 1px stripe every 3px. Toggle in the footer. */
+#crt{position:fixed;inset:0;pointer-events:none;z-index:10;
+  background:repeating-linear-gradient(to bottom,transparent 0,transparent 2px,rgba(0,0,0,.16) 2px,rgba(0,0,0,.16) 3px)}
+body.noscan #crt{display:none}
+.glitch #out,.glitch #hud{animation:glitch .18s steps(2) 1}
+@keyframes glitch{0%{transform:translateX(-3px)}50%{transform:translateX(3px)}100%{transform:none}}
+@media (prefers-reduced-motion:reduce){.glitch #out,.glitch #hud{animation:none}*{scroll-behavior:auto}}
